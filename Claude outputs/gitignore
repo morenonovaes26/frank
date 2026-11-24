@@ -1,0 +1,33 @@
+# Segredos: nunca versionar
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.crt
+*.p12
+credentials*
+secrets*
+
+# Dados gerados em runtime (volumes Docker, logs, bancos)
+data/
+logs/
+srv/
+*.log
+*.db
+*.sqlite
+
+# Imagens de instalação e arquivos grandes
+*.iso
+*.ova
+*.ovf
+*.vmdk
+*.qcow2
+*.img
+
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

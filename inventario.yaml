@@ -1,0 +1,108 @@
+# Inventário do projeto Frank. Fonte da verdade para hosts, VMs e serviços.
+# Preencher os campos marcados com TODO antes de implantar.
+
+projeto: frank
+descricao: Ecossistema de IA para Segurança
+dominio_base: TODO.exemplo.com   # domínio gerenciado na Cloudflare
+
+hosts:
+  - nome: pc-gpu
+    sistema: Ubuntu Server 24.04
+    ip: TODO
+    papel: inferencia de IA (GPU)
+    servicos:
+      - nome: ollama
+        porta: 11434
+        exposicao: somente rede interna
+
+  - nome: pve-prod02
+    sistema: Proxmox VE 9.2
+    ip: TODO
+    papel: hypervisor
+    storage_logs: TODO        # storage do Proxmox onde ficarão os discos de logs
+
+vms:
+  - nome: alma-wazuh
+    host: pve-prod02
+    vmid: TODO
+    sistema: AlmaLinux
+    cpu: 4
+    ram_gb: 8
+    disco_sistema_gb: 60
+    disco_logs_gb: 200        # disco dedicado para logs (ver scripts/proxmox-add-log-disk.sh)
+    montagem_logs: /srv/logs
+    servicos:
+      - nome: wazuh-manager
+        portas: [1514/tcp, 1515/tcp, 55000/tcp]
+        exposicao: rede interna / agentes
+      - nome: wazuh-dashboard
+        portas: [443/tcp]
+        exposicao: rede interna ou Cloudflare Access
+
+  - nome: ubuntu-infra
+    host: pve-prod02
+    vmid: TODO
+    sistema: Ubuntu Server 26.04
+    cpu: 2
+    ram_gb: 4
+    disco_sistema_gb: 40
+    disco_logs_gb: 50
+    montagem_logs: /srv/logs
+    docker: true
+    compose: infra/docker-compose.yml
+    servicos:
+      - nome: cloudflared
+        exposicao: saída apenas (túnel)
+      - nome: npm
+        portas: [80/tcp, 443/tcp, 81/tcp]
+        exposicao: 80/443 via túnel; 81 somente interna
+      - nome: n8n
+        portas: [5678/tcp]
+        exposicao: via NPM com Cloudflare Access
+
+  - nome: ubuntu-tools
+    host: pve-prod02
+    vmid: TODO
+    sistema: Ubuntu Server 26.04
+    cpu: 4
+    ram_gb: 16
+    disco_sistema_gb: 40
+    disco_logs_gb: 100
+    montagem_logs: /srv/logs
+    docker: true
+    compose: tools/docker-compose.yml
+    servicos:
+      - nome: thehive
+        portas: [9000/tcp]
+        exposicao: via NPM com Cloudflare Access
+      - nome: cortex
+        portas: [9001/tcp]
+        exposicao: somente rede interna
+      - nome: vuln-api-collectors
+        exposicao: sem porta; jobs agendados
+      - nome: threat-intelligence
+        exposicao: sem porta; consumo pelo TheHive/Cortex
+
+integracoes_api:
+  - ABUSEIPDB (IP)
+  - GreyNoise
+  - VirusTotal
+  - Pulsedive
+  - AlienVault OTX
+  - Shodan
+  - Censys
+  - urlscan.io
+  - MalwareBazaar
+  - Hybrid Analysis
+  - URLhaus
+  - NVD NIST
+  - GitHub API
+  - Have I Been Pwned
+
+alertas_recomendados:
+  - metrica: uso de disco /srv/logs
+    limite: 80%
+  - metrica: uso de disco sistema
+    limite: 85%
+  - metrica: VM offline
+    limite: 5 minutos

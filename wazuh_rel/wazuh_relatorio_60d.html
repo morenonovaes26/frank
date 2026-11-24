@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Relatório Wazuh - últimos 60 dias</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f1f5f9;color:#0f172a;line-height:1.45}
+header{background:#0f172a;color:#fff;padding:28px 36px}
+header h1{margin:0 0 6px;font-size:24px}
+header p{margin:2px 0;color:#cbd5e1;font-size:14px}
+main{max-width:1100px;margin:0 auto;padding:24px}
+section{background:#fff;border-radius:10px;padding:20px 24px;margin-bottom:20px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+h2{font-size:18px;margin:0 0 12px}
+.alert{border-left:4px solid #dc2626;background:#fef2f2;padding:12px 16px;border-radius:6px;margin-bottom:16px}
+.note{border-left:4px solid #2563eb;background:#eff6ff;padding:12px 16px;border-radius:6px;margin:12px 0;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px}
+.kpi .v{font-size:22px;font-weight:700}
+.kpi .l{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.03em}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+th{background:#f8fafc;font-weight:600;color:#334155}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:12px;background:#2563eb;border-radius:3px;min-width:2px}
+small{color:#64748b}
+footer{text-align:center;color:#64748b;font-size:12px;padding:16px}
+</style></head><body>
+<header>
+<h1>Relatório Wazuh - segurança, métricas e DLP</h1>
+<p>Período dos dados: 2026-09-24 a 2026-10-22 (29 dias com registros)</p>
+<p>Janela solicitada: últimos 60 dias (24/09/2026 a 23/11/2026)</p>
+<p>Fonte: alertas do manager single-node 4.7.2 (volume single-node_wazuh_logs)</p>
+</header>
+<main>
+
+<div class="alert"><strong>Lacuna nos dados:</strong> não há alertas gravados após 2026-10-22. Entre 23/10 e 23/11/2026 (32 dias) o volume de alertas está zerado. Isso indica que o manager parou de gravar alertas no volume ou que os logs foram movidos. Essa é a principal pendência e pode estar ligada aos problemas do Wazuh. Cerca de metade da janela de 60 dias não tem dados.</div>
+
+<section>
+<h2>Resumo</h2>
+<div class="kpis">
+<div class="kpi"><div class="l">Alertas no período</div><div class="v">19.050.232</div></div>
+<div class="kpi"><div class="l">Críticos (nível ≥ 12)</div><div class="v">115</div></div>
+<div class="kpi"><div class="l">Falhas de autenticação</div><div class="v">448.845</div></div>
+<div class="kpi"><div class="l">Eventos de FIM</div><div class="v">27.890</div></div>
+<div class="kpi"><div class="l">Eventos com sinal DLP</div><div class="v">11.580</div><small>~99% é ruído (ver seção DLP)</small></div>
+<div class="kpi"><div class="l">Agentes / regras</div><div class="v">30 / 2.419</div></div>
+</div>
+<p><small>Os totais de alertas são de nível ≥ 3, o limiar configurado em alerts.json. Eventos de nível mais baixo não estão incluídos.</small></p>
+</section>
+
+<section>
+<h2>Alertas por dia</h2>
+<svg viewBox="0 0 980 260" width="100%" role="img" aria-label="Alertas por dia"><line x1="40" y1="220" x2="940" y2="220" stroke="#94a3b8"/><rect x="41.0" y="158.0" width="29.0" height="62.0" fill="#2563eb"><title>2026-09-24: 356.198 alertas, 2 críticos</title></rect><text x="55.5" y="234" font-size="9" text-anchor="middle" fill="#475569">24/09</text><rect x="72.0" y="67.1" width="29.0" height="152.9" fill="#2563eb"><title>2026-09-25: 877.936 alertas, 2 críticos</title></rect><rect x="103.1" y="159.9" width="29.0" height="60.1" fill="#2563eb"><title>2026-09-26: 344.967 alertas, 1 críticos</title></rect><rect x="134.1" y="175.9" width="29.0" height="44.1" fill="#2563eb"><title>2026-09-27: 253.131 alertas, 0 críticos</title></rect><text x="148.6" y="234" font-size="9" text-anchor="middle" fill="#475569">27/09</text><rect x="165.1" y="40.0" width="29.0" height="180.0" fill="#2563eb"><title>2026-09-28: 1.033.765 alertas, 4 críticos</title></rect><rect x="196.2" y="62.6" width="29.0" height="157.4" fill="#2563eb"><title>2026-09-29: 903.892 alertas, 2 críticos</title></rect><rect x="227.2" y="60.5" width="29.0" height="159.5" fill="#2563eb"><title>2026-09-30: 916.231 alertas, 8 críticos</title></rect><text x="241.7" y="234" font-size="9" text-anchor="middle" fill="#475569">30/09</text><rect x="258.2" y="79.8" width="29.0" height="140.2" fill="#2563eb"><title>2026-10-01: 805.007 alertas, 3 críticos</title></rect><rect x="289.3" y="54.4" width="29.0" height="165.6" fill="#2563eb"><title>2026-10-02: 950.996 alertas, 8 críticos</title></rect><rect x="320.3" y="135.6" width="29.0" height="84.4" fill="#2563eb"><title>2026-10-03: 484.851 alertas, 2 críticos</title></rect><text x="334.8" y="234" font-size="9" text-anchor="middle" fill="#475569">03/10</text><rect x="351.3" y="158.0" width="29.0" height="62.0" fill="#2563eb"><title>2026-10-04: 356.172 alertas, 0 críticos</title></rect><rect x="382.4" y="49.4" width="29.0" height="170.6" fill="#2563eb"><title>2026-10-05: 979.514 alertas, 4 críticos</title></rect><rect x="413.4" y="40.9" width="29.0" height="179.1" fill="#2563eb"><title>2026-10-06: 1.028.556 alertas, 4 críticos</title></rect><text x="427.9" y="234" font-size="9" text-anchor="middle" fill="#475569">06/10</text><rect x="444.4" y="66.7" width="29.0" height="153.3" fill="#2563eb"><title>2026-10-07: 880.171 alertas, 3 críticos</title></rect><rect x="475.5" y="70.6" width="29.0" height="149.4" fill="#2563eb"><title>2026-10-08: 858.052 alertas, 4 críticos</title></rect><rect x="506.5" y="82.9" width="29.0" height="137.1" fill="#2563eb"><title>2026-10-09: 787.503 alertas, 5 críticos</title></rect><text x="521.0" y="234" font-size="9" text-anchor="middle" fill="#475569">09/10</text><rect x="537.6" y="176.2" width="29.0" height="43.8" fill="#2563eb"><title>2026-10-10: 251.800 alertas, 1 críticos</title></rect><rect x="568.6" y="177.8" width="29.0" height="42.2" fill="#2563eb"><title>2026-10-11: 242.125 alertas, 1 críticos</title></rect><rect x="599.6" y="183.3" width="29.0" height="36.7" fill="#2563eb"><title>2026-10-12: 211.024 alertas, 1 críticos</title></rect><text x="614.1" y="234" font-size="9" text-anchor="middle" fill="#475569">12/10</text><rect x="630.7" y="83.0" width="29.0" height="137.0" fill="#2563eb"><title>2026-10-13: 786.720 alertas, 7 críticos</title></rect><rect x="661.7" y="75.8" width="29.0" height="144.2" fill="#2563eb"><title>2026-10-14: 827.944 alertas, 4 críticos</title></rect><rect x="692.7" y="83.5" width="29.0" height="136.5" fill="#2563eb"><title>2026-10-15: 783.970 alertas, 4 críticos</title></rect><text x="707.2" y="234" font-size="9" text-anchor="middle" fill="#475569">15/10</text><rect x="723.8" y="81.7" width="29.0" height="138.3" fill="#2563eb"><title>2026-10-16: 794.193 alertas, 2 críticos</title></rect><rect x="754.8" y="178.8" width="29.0" height="41.2" fill="#2563eb"><title>2026-10-17: 236.721 alertas, 2 críticos</title></rect><rect x="785.8" y="179.8" width="29.0" height="40.2" fill="#2563eb"><title>2026-10-18: 230.968 alertas, 2 críticos</title></rect><text x="800.3" y="234" font-size="9" text-anchor="middle" fill="#475569">18/10</text><rect x="816.9" y="76.1" width="29.0" height="143.9" fill="#2563eb"><title>2026-10-19: 826.264 alertas, 23 críticos</title></rect><rect x="847.9" y="64.4" width="29.0" height="155.6" fill="#2563eb"><title>2026-10-20: 893.817 alertas, 1 críticos</title></rect><rect x="878.9" y="75.3" width="29.0" height="144.7" fill="#2563eb"><title>2026-10-21: 830.814 alertas, 12 críticos</title></rect><text x="893.4" y="234" font-size="9" text-anchor="middle" fill="#475569">21/10</text><rect x="910.0" y="164.8" width="29.0" height="55.2" fill="#2563eb"><title>2026-10-22: 316.930 alertas, 3 críticos</title></rect><text x="40" y="28" font-size="11" fill="#475569">máx. 1.033.765 alertas/dia</text></svg>
+</section>
+
+<section>
+<h2>Distribuição por nível de severidade</h2>
+<table><thead><tr><th>Nível</th><th>Proporção</th><th class="num">Alertas</th></tr></thead><tbody><tr><td>12</td><td><div class="bar" style="width:0.0%"></div></td><td class="num">115</td></tr><tr><td>11</td><td><div class="bar" style="width:0.0%"></div></td><td class="num">127</td></tr><tr><td>10</td><td><div class="bar" style="width:0.4%"></div></td><td class="num">62.819</td></tr><tr><td>9</td><td><div class="bar" style="width:0.3%"></div></td><td class="num">39.117</td></tr><tr><td>8</td><td><div class="bar" style="width:0.0%"></div></td><td class="num">1.290</td></tr><tr><td>7</td><td><div class="bar" style="width:3.0%"></div></td><td class="num">449.291</td></tr><tr><td>6</td><td><div class="bar" style="width:10.6%"></div></td><td class="num">1.619.748</td></tr><tr><td>5</td><td><div class="bar" style="width:8.3%"></div></td><td class="num">1.265.811</td></tr><tr><td>4</td><td><div class="bar" style="width:2.6%"></div></td><td class="num">393.307</td></tr><tr><td>3</td><td><div class="bar" style="width:100.0%"></div></td><td class="num">15.218.607</td></tr></tbody></table>
+<p><small>Distribuição calculada a partir das ocorrências das regras (regras_top.csv).</small></p>
+</section>
+
+<section>
+<h2>Alertas críticos (nível ≥ 12) - 115 eventos</h2>
+<table><thead><tr><th>Regra</th><th>Descrição</th><th class="num">Ocorrências</th></tr></thead><tbody><tr><td>204</td><td>Agent event queue is flooded. Check the agent configuration.</td><td class="num">90</td></tr><tr><td>40112</td><td>Multiple authentication failures followed by a success.</td><td class="num">17</td></tr><tr><td>60159</td><td>Domain admins group changed.</td><td class="num">3</td></tr><tr><td>60154</td><td>Administrators group changed.</td><td class="num">3</td></tr><tr><td>60167</td><td>Enterprise admins group changed.</td><td class="num">2</td></tr></tbody></table>
+<div class="note">
+<strong>O que merece atenção:</strong>
+<ul>
+<li><strong>Mudança em grupos administrativos (60154, 60159, 60167):</strong> 8 eventos, nos agentes BMW e DEFENSE, entre 02/10 e 21/10. "Domain admins", "Administrators" e "Enterprise admins" foram alterados. Confirme se as mudanças foram autorizadas.</li>
+<li><strong>Múltiplas falhas seguidas de sucesso (40112):</strong> 17 eventos no srv-metabase em 19/10. Um padrão desse tipo costuma indicar ataque de força bruta bem-sucedido ou senha fraca. Vale verificar o usuário e o IP de origem.</li>
+<li><strong>Fila de eventos do agente saturada (204):</strong> 90 eventos, sendo 77 no BMW. Isso indica volume excessivo de eventos no agente e pode degradar a coleta. Está relacionado aos problemas do Wazuh.</li>
+</ul>
+</div>
+</section>
+
+<section>
+<h2>Agentes</h2>
+<table><thead><tr><th>Agente</th><th class="num">Alertas</th><th class="num">Falhas de autenticação</th><th class="num">Eventos DLP</th></tr></thead><tbody><tr><td>SRV-ADFOTUS01</td><td class="num">10.808.936</td><td class="num">40.339</td><td class="num">2</td></tr><tr><td>BMW</td><td class="num">6.377.991</td><td class="num">69.722</td><td class="num">0</td></tr><tr><td>DTC-BD-02</td><td class="num">1.037.563</td><td class="num">322.905</td><td class="num">4</td></tr><tr><td>srv-metabase</td><td class="num">438.892</td><td class="num">21</td><td class="num">11.457</td></tr><tr><td>JETTA</td><td class="num">138.512</td><td class="num">811</td><td class="num">0</td></tr><tr><td>BORA</td><td class="num">60.896</td><td class="num">14.980</td><td class="num">2</td></tr><tr><td>DTC-SAGA-HMG</td><td class="num">40.305</td><td class="num">0</td><td class="num">0</td></tr><tr><td>glpi</td><td class="num">34.597</td><td class="num">6</td><td class="num">7</td></tr><tr><td>defense</td><td class="num">33.976</td><td class="num">3</td><td class="num">3</td></tr><tr><td>PLUTAO</td><td class="num">19.268</td><td class="num">1</td><td class="num">0</td></tr><tr><td>WMS-Senior</td><td class="num">16.577</td><td class="num">4</td><td class="num">0</td></tr><tr><td>PARS</td><td class="num">8.225</td><td class="num">0</td><td class="num">0</td></tr><tr><td>CORSA</td><td class="num">7.836</td><td class="num">0</td><td class="num">0</td></tr><tr><td>DEFENSE-TESTE</td><td class="num">7.207</td><td class="num">0</td><td class="num">3</td></tr><tr><td>ct-n8n</td><td class="num">3.615</td><td class="num">0</td><td class="num">0</td></tr></tbody></table>
+<p><small>Mostrados os 15 agentes com mais alertas de um total de 30.</small></p>
+</section>
+
+<section>
+<h2>Regras mais disparadas</h2>
+<table><thead><tr><th>Regra</th><th>Descrição</th><th class="num">Nível</th><th class="num">Ocorrências</th></tr></thead><tbody><tr><td>60137</td><td>Windows User Logoff.</td><td class="num">3</td><td class="num">12.986.505</td></tr><tr><td>60106</td><td>Windows logon success.</td><td class="num">3</td><td class="num">2.200.865</td></tr><tr><td>60104</td><td>Windows audit failure event.</td><td class="num">5</td><td class="num">716.211</td></tr><tr><td>510</td><td>Host-based anomaly detection event (rootcheck).</td><td class="num">7</td><td class="num">442.588</td></tr><tr><td>60122</td><td>Logon failure - Unknown user or bad password.</td><td class="num">5</td><td class="num">434.701</td></tr><tr><td>60107</td><td>Failed attempt to perform a privileged operation.</td><td class="num">4</td><td class="num">393.183</td></tr><tr><td>92657</td><td>Successful Remote Logon Detected - User:\renan.izoton - NTLM authentication, possible pass-the-hash attack - Possible RDP connection. Verify</td><td class="num">6</td><td class="num">69.067</td></tr><tr><td>60205</td><td>Multiple Windows audit failure events.</td><td class="num">10</td><td class="num">42.747</td></tr><tr><td>92657</td><td>Successful Remote Logon Detected - User:\alice.aguiar - NTLM authentication, possible pass-the-hash attack - Possible RDP connection. Verify</td><td class="num">6</td><td class="num">40.124</td></tr><tr><td>60602</td><td>Windows application error event.</td><td class="num">9</td><td class="num">38.887</td></tr><tr><td>61102</td><td>Windows System error event</td><td class="num">5</td><td class="num">35.229</td></tr><tr><td>31101</td><td>Web server 400 error code.</td><td class="num">5</td><td class="num">33.420</td></tr><tr><td>92657</td><td>Successful Remote Logon Detected - User:\LMTZ0131$ - NTLM authentication, possible pass-the-hash attack - Possible RDP connection. Verify th</td><td class="num">6</td><td class="num">30.530</td></tr><tr><td>92657</td><td>Successful Remote Logon Detected - User:\tiago.baldan - NTLM authentication, possible pass-the-hash attack - Possible RDP connection. Verify</td><td class="num">6</td><td class="num">24.475</td></tr><tr><td>92657</td><td>Successful Remote Logon Detected - User:\LMTZ0322$ - NTLM authentication, possible pass-the-hash attack - Possible RDP connection. Verify th</td><td class="num">6</td><td class="num">22.642</td></tr></tbody></table>
+<div class="note">
+<strong>Regra 92657 (pass-the-hash / RDP):</strong> aparece com dezenas de milhares de ocorrências para vários usuários e máquinas. A própria descrição indica "possível" ataque. Esse volume sugere que a regra gera muito ruído no ambiente, ou que há logons NTLM remotos legítimos. Revise a regra ou crie exceções para os acessos autorizados. Não trate como ataque confirmado sem análise.
+<br><br><strong>Regra 521 (rootkit de kernel possível, nível 11):</strong> 127 ocorrências. Não está entre os críticos, mas vale verificação.
+</div>
+</section>
+
+<section>
+<h2>Integridade de arquivos (FIM)</h2>
+<table><thead><tr><th>Evento</th><th class="num">Ocorrências</th></tr></thead><tbody><tr><td>modified</td><td class="num">16.139</td></tr><tr><td>added</td><td class="num">6.982</td></tr><tr><td>deleted</td><td class="num">4.769</td></tr></tbody></table>
+<h2 style="margin-top:20px">Agentes com mais alterações</h2>
+<table><thead><tr><th>Agente</th><th class="num">Eventos</th></tr></thead><tbody><tr><td>SRV-ADFOTUS01</td><td class="num">7.238</td></tr><tr><td>BMW</td><td class="num">3.443</td></tr><tr><td>DTC-BD-02</td><td class="num">3.048</td></tr><tr><td>JETTA</td><td class="num">2.133</td></tr><tr><td>DTC-SAGA-HMG</td><td class="num">1.890</td></tr><tr><td>BORA</td><td class="num">1.774</td></tr><tr><td>WMS-Senior</td><td class="num">1.516</td></tr><tr><td>CORSA</td><td class="num">1.195</td></tr><tr><td>PARS</td><td class="num">1.064</td></tr><tr><td>defense</td><td class="num">689</td></tr></tbody></table>
+<p><small>A maior parte das alterações é de chaves do registro do Windows (W32Time, firewall, BAM). Muitas são atualizações normais do sistema. Os eventos "Integrity checksum changed" dos hosts pve-prod01, pve-prod02 e pve-prod05 merecem verificação.</small></p>
+</section>
+
+<section>
+<h2>DLP - sinais e qualidade dos dados</h2>
+<table><thead><tr><th>Categoria</th><th class="num">Eventos</th></tr></thead><tbody><tr><td>contexto (canal de saída: USB, nuvem, webmail, upload)</td><td class="num">11.318</td></tr><tr><td>forte (palavra/padrão de dado sensível ou vazamento)</td><td class="num">198</td></tr><tr><td>FIM em arquivo de documento/base</td><td class="num">64</td></tr></tbody></table>
+<div class="note">
+<strong>Leitura honesta deste bloco:</strong> o Wazuh não tem DLP nativo. Os sinais aqui são heurísticas por palavras-chave. 11.457 eventos (98.9%) vêm da regra 510 (rootcheck) no srv-metabase. Eles são disparados por caminhos de arquivo do Docker (overlay2) com strings aleatórias que contêm "dlp" ou "upload", e não por vazamento real. Ajuste o filtro para ignorar caminhos de overlay2 e Docker.
+<br><br>Os sinais reais de DLP nesta amostra são poucos: políticas de mídia removível (CIS "Scan removable drives", "Allowed to format and eject removable media") e mudanças de arquivos de documentos e bases em um número pequeno de hosts. Para um DLP de verdade, é preciso coletar eventos de endpoints (USB, upload para nuvem, impressão, clipboard) com agentes e regras dedicadas, ou integrar uma ferramenta específica.
+</div>
+</section>
+
+<section>
+<h2>Recomendações</h2>
+<ol>
+<li>Investigar por que os alertas param em 22/10. Verificar o manager no contêiner e o volume de destino dos logs.</li>
+<li>Validar as mudanças em grupos administrativos de 21/10 (BMW) e os 17 eventos de login após falhas no srv-metabase.</li>
+<li>Reduzir o volume: ajustar a regra 92657 e o agente com fila saturada (BMW) antes de ampliar a coleta.</li>
+<li>Ajustar os filtros de DLP para excluir caminhos Docker e overlay2 do srv-metabase, o que deve eliminar quase todo o ruído.</li>
+<li>Para o projeto de DLP: definir quais canais de saída importam (USB, nuvem, webmail, impressão) e os agentes ou integrações necessários para cada um.</li>
+</ol>
+</section>
+
+</main>
+<footer>Relatório gerado a partir de wazuh_relatorio_60d.py. Dados confidenciais: contêm nomes de usuários e trechos de logs.</footer>
+</body></html>
