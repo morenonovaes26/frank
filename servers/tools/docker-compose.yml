@@ -1,7 +1,6 @@
-# VM ubuntu-tools: TheHive, Cortex e dependências.
-# TEMPLATE: validar versões compatíveis e os requisitos (Elasticsearch/Cassandra,
-# memória e vm.max_map_count) na documentação oficial do TheHive/Cortex antes de subir.
-# Antes de subir: sudo sysctl -w vm.max_map_count=262144
+# VM srv-frank-tools (192.168.80.76): Elasticsearch, TheHive e Cortex.
+# TEMPLATE: validar versões compatíveis (TODO) e requisitos na documentação oficial antes de subir.
+# Variáveis vêm do .env da raiz do projeto (ligado automaticamente pelo bootstrap).
 
 name: frank-tools
 
@@ -21,7 +20,7 @@ services:
     networks: [frank-tools]
 
   thehive:
-    image: strangebee/thehive:5.4   # TODO validar tag atual
+    image: strangebee/thehive:5.4   # TODO validar tag atual e compatibilidade com o Elasticsearch
     container_name: thehive
     restart: unless-stopped
     depends_on: [elasticsearch]

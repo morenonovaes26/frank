@@ -1,6 +1,6 @@
-# VM ubuntu-infra: Cloudflared, Nginx Proxy Manager e n8n.
-# Uso: cp ../.env.example ../.env && docker compose up -d
-# Fixar versões das imagens antes de produção (ver tags atuais de cada projeto).
+# VM srv-frank-infra (192.168.80.74): Cloudflared, Nginx Proxy Manager e n8n.
+# Variáveis vêm do .env da raiz do projeto (ligado automaticamente pelo bootstrap).
+# Fixar versões das imagens antes de produção.
 
 name: frank-infra
 
@@ -33,7 +33,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "127.0.0.1:81:81"   # painel administrativo somente local (acessar via túnel/SSH)
+      - "127.0.0.1:81:81"   # painel administrativo somente local (acessar via SSH ou túnel)
     environment:
       DB_MYSQL_HOST: npm-db
       DB_MYSQL_PORT: 3306
@@ -66,6 +66,7 @@ services:
       TZ: ${TZ}
     volumes:
       - /srv/data/n8n:/home/node/.n8n
+      - /srv/logs/n8n:/home/node/logs
     networks: [frank]
 
 networks:

@@ -6,31 +6,67 @@ descricao: Ecossistema de IA para Segurança
 dominio_base: TODO.exemplo.com   # domínio gerenciado na Cloudflare
 
 hosts:
-  - nome: pc-gpu
-    sistema: Ubuntu Server 24.04
-    ip: TODO
+  - nome: srv-frank-ia
+    anterior: pc-gpu             # nome usado no mapa inicial
+    sistema: Ubuntu Server 26.04.1 LTS
+    kernel: 7.0.0-44-generic
+    ip: 192.168.80.77
+    gateway: 192.168.80.254
+    rede: 1 Gb/s (enp30s0)
     papel: inferencia de IA (GPU)
+    hardware:
+      placa_mae: ASRock A320M-HD (BIOS P5.20, 2019)
+      cpu: AMD Ryzen 5 3400G (4 núcleos / 8 threads)
+      ram: 15 GB (2 x 8 GB DDR4 2400 MT/s)
+      gpu: NVIDIA GeForce RTX 3080 (10 GB VRAM)
+      driver_nvidia: 595.99.02 (CUDA 13.2)
+    discos:
+      - dispositivo: sda
+        modelo: Crucial BX500 240 GB (CT240BX500SSD1)
+        uso: sistema (LVM ubuntu-vg/ubuntu-lv de 100 GB, 121 GB livres no VG)
+        observacao: usar o espaço livre do VG para modelos do Ollama
+      - dispositivo: sdb
+        modelo: Toshiba MQ01ABD1 (931 GB, HDD)
+        uso: a definir (logs, backups ou arquivos antigos)
+        observacao: partição sdb1 ext4 sem montagem; conferir conteúdo antes de montar
     servicos:
       - nome: ollama
+        status: instalado para testes; pendente de configuração de acesso
         porta: 11434
-        exposicao: somente rede interna
+        exposicao: somente 127.0.0.1 até definição de acesso pela rede interna
+    pendencias:
+      - confirmar a estratégia de acesso ao Ollama para o ubuntu-tools
+      - definir o uso do HDD sdb
 
   - nome: pve-prod02
-    sistema: Proxmox VE 9.2
-    ip: TODO
+    sistema: Proxmox VE 9.2.2
+    ip: 192.168.80.52
     papel: hypervisor
-    storage_logs: TODO        # storage do Proxmox onde ficarão os discos de logs
+    hardware:
+      cpu: 24 vCPUs (lógicas)
+      ram: 62 GiB
+    storages:
+      local: diretório (padrão)
+      local-lvm: LVM-thin (discos de sistema das VMs)
+      dskprod02-dir: diretório (candidato para discos de logs; confirmar espaço com pvesm status)
+    storage_logs: dskprod02-dir
+    assinatura: nenhuma; configurar repositório pve-no-subscription
+    pendencias:
+      - rodar pvesm status e registrar espaço livre de cada storage
+      - trocar o repositório para pve-no-subscription
+      - trocar o certificado autoassinado
 
 vms:
   - nome: alma-wazuh
     host: pve-prod02
-    vmid: TODO
-    sistema: AlmaLinux
+    vmid: 101
+    origem: appliance OVA wazuh-4.14.9.ova (importado com qm importovf)
     cpu: 4
     ram_gb: 8
-    disco_sistema_gb: 60
-    disco_logs_gb: 200        # disco dedicado para logs (ver scripts/proxmox-add-log-disk.sh)
+    disco_sistema: local-lvm
+    disco_logs_gb: 200        # disco dedicado para logs em dskprod02-dir (ver scripts/proxmox-add-log-disk.sh)
     montagem_logs: /srv/logs
+    observacao: incluir /var/lib/wazuh-indexer em /srv/logs/wazuh ou apontar o indexador para o disco de logs
     servicos:
       - nome: wazuh-manager
         portas: [1514/tcp, 1515/tcp, 55000/tcp]
@@ -38,11 +74,15 @@ vms:
       - nome: wazuh-dashboard
         portas: [443/tcp]
         exposicao: rede interna ou Cloudflare Access
+    pendencias:
+      - trocar as senhas padrão do appliance
+      - registrar os agentes e ativar a detecção de vulnerabilidades
 
   - nome: ubuntu-infra
     host: pve-prod02
     vmid: TODO
-    sistema: Ubuntu Server 26.04
+    origem: ISO ubuntu-26.04.1-live-server-amd64.iso
+    sistema: Ubuntu Server 26.04.1 LTS
     cpu: 2
     ram_gb: 4
     disco_sistema_gb: 40
@@ -63,7 +103,8 @@ vms:
   - nome: ubuntu-tools
     host: pve-prod02
     vmid: TODO
-    sistema: Ubuntu Server 26.04
+    origem: ISO ubuntu-26.04.1-live-server-amd64.iso
+    sistema: Ubuntu Server 26.04.1 LTS
     cpu: 4
     ram_gb: 16
     disco_sistema_gb: 40
